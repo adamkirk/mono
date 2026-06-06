@@ -31,7 +31,7 @@ func (c *V1BetaProbesController) RegisterRoutes(v ApiVersion, api huma.API) {
 	huma.Register(api, huma.Operation{
 		OperationID:   fmt.Sprintf("%s.probes.ready", string(v)),
 		Method:        http.MethodGet,
-		Path:          "/_/probes/ready",
+		Path:          "/_/probes/readiness",
 		Summary:       "Check if the app is ready to serve connections",
 		DefaultStatus: http.StatusNoContent,
 		Tags: []string{
@@ -41,7 +41,7 @@ func (c *V1BetaProbesController) RegisterRoutes(v ApiVersion, api huma.API) {
 			OptDisableAllDefaultResponses:   true,
 			OptDisableDefaultAuthentication: true,
 		},
-	}, ErrorHandler(c.Ready, http.MethodGet))
+	}, ErrorHandler(c.Readiness, http.MethodGet))
 }
 
 func NewProbesController() *V1BetaProbesController {
@@ -54,7 +54,7 @@ func (c *V1BetaProbesController) Startup(ctx context.Context, req *V1BetaProbesS
 	}, nil
 }
 
-func (c *V1BetaProbesController) Ready(ctx context.Context, req *V1BetaProbesStartupRequest) (*NoContent, error) {
+func (c *V1BetaProbesController) Readiness(ctx context.Context, req *V1BetaProbesStartupRequest) (*NoContent, error) {
 	return &NoContent{
 		Status: http.StatusNoContent,
 	}, nil
