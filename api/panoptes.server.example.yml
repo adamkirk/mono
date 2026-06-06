@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+db:
+  postgres:
+    # These null variables come from the docker compose config in development
+    host: ~
+    username: ~
+    password: ~
+    port: ~
+    dbName: ~
+    maxConnections: 10
+    minConnections: 1
+    sslMode: "disable"

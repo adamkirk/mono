@@ -1,0 +1,15 @@
+#!/bin/sh
+
+COMPONENTS="api ui charts/ui charts/api cli"
+
+for component in $COMPONENTS; do
+    [ -d "$component/.githook" ] || continue
+
+    hook="$component/.githook/pre-commit"
+    [ -x "$hook" ] || continue
+
+    if git diff --cached --name-only | grep -q "^$component/"; then
+        echo "[$component] running pre-commit hook..."
+        "$hook" || exit 1
+    fi
+done

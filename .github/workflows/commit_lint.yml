@@ -1,0 +1,33 @@
+name: "[CI] Lint commits"
+run-name: "[CI] Lint commits [#${{ github.event.pull_request.number }}]"
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      - name: Validate PR commits with commitlint
+        run: |
+          npx --yes \
+            --package @commitlint/cli@20 \
+            --package @commitlint/config-conventional@20 \
+            commitlint \
+            --from ${{ github.event.pull_request.base.sha }} \
+            --to ${{ github.event.pull_request.head.sha }} \
+            --verbose

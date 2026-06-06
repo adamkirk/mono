@@ -1,0 +1,51 @@
+name: "[INC] Release"
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        required: true
+        type: string
+    outputs:
+      version:
+        description: The released version, empty if no release was made
+        value: ${{ jobs.release.outputs.version }}
+      released:
+        description: Whether a release was made
+        value: ${{ jobs.release.outputs.released }}
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.outputs.outputs.version }}
+      released: ${{ steps.outputs.outputs.released }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      - run: npm ci
+
+      - name: Release
+        run: npx semantic-release --extends ./${{ inputs.path }}/release.config.cjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set outputs
+        id: outputs
+        run: |
+          VERSION=$([ -f nextversion ] && cat nextversion || echo "")
+          RELEASED=$([ -f released ] && cat released || echo "false")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "released=$RELEASED" >> "$GITHUB_OUTPUT"

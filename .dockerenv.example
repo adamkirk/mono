@@ -1,0 +1,33 @@
+
+# --- postgres
+PANOPTES_POSTGRES_HOST_PORT=5432
+PANOPTES_POSTGRES_PORT=5432
+PANOPTES_POSTGRES_ROOT_PASSWORD=iamroot
+PANOPTES_POSTGRES_ROOT_USER=root
+PANOPTES_POSTGRES_DB=panoptes
+PANOPTES_POSTGRES_SCHEMA=public
+PANOPTES_POSTGRES_APP_USER=panoptes_app
+PANOPTES_POSTGRES_APP_PASSWORD=iamapp
+PANOPTES_POSTGRES_MIGRATOR_USER=panoptes_migrator
+PANOPTES_POSTGRES_MIGRATOR_PASSWORD=iammigrator
+PANOPTES_POSTGRES_INIT_DIR=./api/etc/postgres/init.d
+
+# --- pgAdmin
+PANOPTES_PGADMIN_EMAIL=pgadmin@panoptestest.dev
+PANOPTES_PGADMIN_PASSWORD=iampgadmin
+PANOPTES_PGADMIN_SERVERS_FILEPATH=./.local/pgadmin/config/servers.json
+PANOPTES_PGADMIN_HOST=pgadmin.panoptestest.dev
+PANOPTES_PGADMIN_PORT=80
+
+# --- traefik
+PANOPTES_TRAEFIK_HOST=traefik.panoptestest.dev
+
+# --- api
+PANOPTES_API_HOST=api.panoptestest.dev
+
+# --- ui
+PANOPTES_UI_HOST=panoptestest.dev
+
+# --- migrations
+PANOPTES_MIGRATIONS_DIR=./api/etc/postgres/migrations
+PANOPTES_DB_MIGRATE_SCRIPT=./api/etc/postgres/migrate.sh

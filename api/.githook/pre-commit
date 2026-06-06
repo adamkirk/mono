@@ -1,0 +1,5 @@
+#!/bin/bash
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+NO_TTY=1 make -C "$REPO_ROOT" hook-api-fmtcheck

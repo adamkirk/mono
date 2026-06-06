@@ -1,0 +1,22 @@
+name: "[CI] Validate commit scopes"
+run-name: "[CI] Validate commit scopes [#${{ github.event.pull_request.number }}]"
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit scopes
+        run: bash scripts/validate_scopes.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
