@@ -1,0 +1,20 @@
+name: "[RELEASE] ui"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ui/**'
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    uses: ./.github/workflows/_release.yml
+    with:
+      path: ui
+    secrets: inherit

@@ -1,0 +1,20 @@
+const { buildReleaseRules, buildReleaseNotesConfig } = require('../release.utils.cjs');
+
+module.exports = {
+  branches: ['main'],
+  tagFormat: 'ui-v${version}',
+  plugins: [
+    ['@semantic-release/commit-analyzer', {
+      preset: 'conventionalcommits',
+      releaseRules: buildReleaseRules('ui'),
+    }],
+    ['@semantic-release/release-notes-generator', buildReleaseNotesConfig('ui')],
+    ['@semantic-release/github', {
+      successComment: false,
+      labels: false,
+    }],
+    ['@semantic-release/exec', {
+      publishCmd: 'echo "${nextRelease.version}" > nextversion && echo "true" > released',
+    }],
+  ],
+};
