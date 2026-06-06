@@ -37,15 +37,17 @@ function buildReleaseNotesConfig(scope) {
       transform: (commit) => {
         if (commit.scope !== scope) return false;
 
-        if (typeToSection[commit.type]) {
-          commit.type = typeToSection[commit.type];
+        const out = { ...commit };
+
+        if (typeToSection[out.type]) {
+          out.type = typeToSection[out.type];
         }
 
-        if (commit.hash) {
-          commit.shortHash = commit.hash.substring(0, 7);
+        if (out.hash) {
+          out.shortHash = out.hash.substring(0, 7);
         }
 
-        return commit;
+        return out;
       },
     },
   };
